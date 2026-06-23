@@ -1,0 +1,297 @@
+{
+  "users": {
+    "student123": {
+      "id": "student123",
+      "email": "studymate_demo@gmail.com",
+      "name": "Alex Rivera",
+      "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
+      "customSystemPrompt": "Explain complex terms using analogies and break descriptions into direct, concise bullet points.",
+      "learningStyle": "visual",
+      "learningGoals": "Master quantum computing fundamentals and prep for Advanced Machine Learning finals."
+    },
+    "user-1782191691084": {
+      "id": "user-1782191691084",
+      "email": "www.itzviki@gmail.com",
+      "name": "bitu",
+      "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=www.itzviki@gmail.com",
+      "learningStyle": "visual",
+      "learningGoals": "Set up study goals to supercharge learning!"
+    }
+  },
+  "tasks": [
+    {
+      "id": "t_1782235704457662",
+      "title": "Math homework",
+      "completed": false,
+      "priority": "medium",
+      "subject": "Math",
+      "userId": "student123",
+      "dueDate": "2026-06-23",
+      "createdAt": "2026-06-23T17:28:24.457Z"
+    },
+    {
+      "id": "t_1782235590020569",
+      "title": "Review Quantum Entanglement lecture notes",
+      "completed": false,
+      "priority": "medium",
+      "subject": "Physics",
+      "userId": "student123",
+      "dueDate": "2026-06-23",
+      "createdAt": "2026-06-23T17:26:30.020Z"
+    },
+    {
+      "id": "t_1782234741505268",
+      "title": "Study Linear Algebra",
+      "completed": false,
+      "priority": "medium",
+      "subject": "Math",
+      "userId": "user-1782191691084",
+      "dueDate": "2026-06-23",
+      "createdAt": "2026-06-23T17:12:21.505Z"
+    },
+    {
+      "id": "t_1782233340601179",
+      "title": "Study Linear Algebra",
+      "completed": false,
+      "priority": "medium",
+      "subject": "Math",
+      "userId": "student123",
+      "dueDate": "2026-06-23",
+      "createdAt": "2026-06-23T16:49:00.601Z"
+    },
+    {
+      "id": "t_1782228610258238",
+      "title": "Study Linear Algebra",
+      "completed": true,
+      "priority": "medium",
+      "subject": "Math",
+      "userId": "user-1782191691084",
+      "dueDate": "2026-06-23",
+      "createdAt": "2026-06-23T15:30:10.258Z"
+    },
+    {
+      "id": "task-1",
+      "userId": "student123",
+      "title": "Review Quantum Entanglement lecture notes",
+      "completed": false,
+      "priority": "high",
+      "subject": "Physics",
+      "dueDate": "2026-06-24",
+      "createdAt": "2026-06-23T03:43:53.838Z"
+    },
+    {
+      "id": "task-2",
+      "userId": "student123",
+      "title": "Complete linear algebra exercise set 4",
+      "completed": true,
+      "priority": "medium",
+      "subject": "Mathematics",
+      "dueDate": "2026-06-22",
+      "createdAt": "2026-06-21T03:43:53.838Z"
+    },
+    {
+      "id": "task-3",
+      "userId": "student123",
+      "title": "Draft chapter 1 summary of Gatsby critique",
+      "completed": false,
+      "priority": "low",
+      "subject": "Literature",
+      "dueDate": "2026-06-25",
+      "createdAt": "2026-06-23T03:43:53.838Z"
+    },
+    {
+      "id": "task-4",
+      "userId": "student123",
+      "title": "Compile backpropagation training equations",
+      "completed": false,
+      "priority": "high",
+      "subject": "Computer Science",
+      "dueDate": "2026-06-23",
+      "createdAt": "2026-06-23T03:43:53.838Z"
+    }
+  ],
+  "notes": [
+    {
+      "id": "note-1",
+      "userId": "student123",
+      "title": "Quantum Computing Basics",
+      "subject": "Physics",
+      "content": "# Quantum Superposition & Entanglement\n\nQuantum computers leverage the principles of quantum mechanics to process information in ways classical computers cannot.\n\n## 1. Superposition\nUnlike a classical bit which is strictly 0 or 1, a qubit exists in a linear combination of states:\n$$|\\psi\\rangle = \\alpha|0\\rangle + \\beta|1\\rangle$$\nWhere $\\alpha$ and $\\beta$ are probability amplitudes, and:\n$$|\\alpha|^2 + |\\beta|^2 = 1$$\n\n## 2. Quantum Entanglement\nWhen two qubits are entangled, their states are linked. Measuring one instantaneously determines the state of the other:\n- Bell State: $|\\Phi^+\\rangle = \\frac{1}{\\sqrt{2}}(|00\\rangle + |11\\rangle)$\n\n## Key Takeaway\nPerfect superposition is extremely fragile and breaks due to *quantum decoherence*. Shielding qubits remains the core engineering challenge.",
+      "updatedAt": "2026-06-23T03:43:53.838Z"
+    },
+    {
+      "id": "note-2",
+      "userId": "student123",
+      "title": "Neural Network Architecture Foundations",
+      "subject": "Computer Science",
+      "content": "# Neural Network Foundations\n\nAn artificial neuron computes the weighted sum of inputs, adds a bias, and passes it through an activation function.\n\n## 1. Backpropagation\nWe compute the local gradient of cost $C$ with respect to weight $w_{ij}$:\n$$\\frac{\\partial C}{\\partial w_{ij}} = a_j \\cdot \\delta_i$$\n\n## 2. Gradient Descent Updates\nWe adjust parameters using a learning rate $\\eta$:\n$$w_{ij} \\leftarrow w_{ij} - \\eta \\frac{\\partial C}{\\partial w_{ij}}$$\n\n## Common Terms\n- **ReLU**: $f(x) = \\max(0, x)$ - solves vanishing gradients.\n- **Overfitting**: Prevent using L2 regularization or Dropout layers.",
+      "updatedAt": "2026-06-23T02:43:53.838Z"
+    }
+  ],
+  "pomodoros": [
+    {
+      "id": "pomo-1",
+      "userId": "student123",
+      "duration": 25,
+      "subject": "Physics",
+      "date": "2026-06-21",
+      "completedAt": "2026-06-21T03:43:53.838Z"
+    },
+    {
+      "id": "pomo-2",
+      "userId": "student123",
+      "duration": 25,
+      "subject": "Computer Science",
+      "date": "2026-06-22",
+      "completedAt": "2026-06-22T03:43:53.838Z"
+    },
+    {
+      "id": "pomo-3",
+      "userId": "student123",
+      "duration": 25,
+      "subject": "Physics",
+      "date": "2026-06-23",
+      "completedAt": "2026-06-23T03:43:53.838Z"
+    }
+  ],
+  "streaks": {
+    "student123": {
+      "currentStreak": 3,
+      "maxStreak": 5,
+      "lastActive": "2026-06-23",
+      "freezesLeft": 2
+    },
+    "user-1782185868148": {
+      "currentStreak": 0,
+      "maxStreak": 0,
+      "lastActive": null,
+      "freezesLeft": 3
+    },
+    "user-1782191691084": {
+      "currentStreak": 0,
+      "maxStreak": 0,
+      "lastActive": null,
+      "freezesLeft": 3
+    }
+  },
+  "groups": [
+    {
+      "id": "group-stem",
+      "name": "STEM Elite Study Group",
+      "code": "STEM88",
+      "members": [
+        {
+          "email": "studymate_demo@gmail.com",
+          "name": "Alex Rivera",
+          "avatarUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
+          "lastActive": "2026-06-23T03:43:53.838Z",
+          "currentActivity": {
+            "status": "focusing",
+            "timeRemaining": "12:44",
+            "subject": "Computer Science"
+          }
+        },
+        {
+          "email": "Sophia_neuro@gmail.com",
+          "name": "Sophia Chen",
+          "avatarUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150",
+          "lastActive": "2026-06-23T03:43:53.838Z",
+          "currentActivity": {
+            "status": "break",
+            "timeRemaining": "04:59",
+            "subject": "Biology"
+          }
+        },
+        {
+          "email": "siddharth_codes@gmail.com",
+          "name": "Siddharth Mehta",
+          "avatarUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150",
+          "lastActive": "2026-06-23T03:43:53.838Z",
+          "currentActivity": {
+            "status": "idle"
+          }
+        }
+      ],
+      "messages": [
+        {
+          "id": "m1",
+          "senderEmail": "Sophia_neuro@gmail.com",
+          "senderName": "Sophia Chen",
+          "text": "Hey study squad! Just started a 50-minute blocks session on neuroplasticity reading.",
+          "sentAt": "2026-06-23T03:33:53.838Z"
+        },
+        {
+          "id": "m2",
+          "senderEmail": "siddharth_codes@gmail.com",
+          "senderName": "Siddharth Mehta",
+          "text": "Nice! I am currently debugging my microservice tasks. Need to study for tomorrow's lab.",
+          "sentAt": "2026-06-23T03:35:53.838Z"
+        }
+      ],
+      "sharedTasks": [
+        {
+          "id": "group-task-1",
+          "userId": "group-stem",
+          "title": "Complete mock exams for Finals preparation",
+          "completed": false,
+          "priority": "high",
+          "subject": "Physics",
+          "dueDate": "2026-06-25",
+          "createdAt": "2026-06-23T03:43:53.838Z"
+        }
+      ]
+    },
+    {
+      "id": "group-1782190154879",
+      "name": "f1",
+      "code": "RRM8",
+      "members": [
+        {
+          "email": "unknown@studymate.com",
+          "name": "bitu",
+          "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=www.itzviki@gmail.com",
+          "lastActive": "2026-06-23T04:49:14.879Z",
+          "currentActivity": {
+            "status": "idle"
+          }
+        }
+      ],
+      "messages": [
+        {
+          "id": "sys-1782190154879",
+          "senderEmail": "system@studymate.com",
+          "senderName": "StudyMate System",
+          "text": "Welcome to study group \"f1\"! Share code \"RRM8\" with your colleagues to collaborate.",
+          "sentAt": "2026-06-23T04:49:14.879Z"
+        }
+      ],
+      "sharedTasks": []
+    },
+    {
+      "id": "group-1782190159652",
+      "name": "f1",
+      "code": "WL6C",
+      "members": [
+        {
+          "email": "unknown@studymate.com",
+          "name": "bitu",
+          "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=www.itzviki@gmail.com",
+          "lastActive": "2026-06-23T04:49:19.652Z",
+          "currentActivity": {
+            "status": "idle"
+          }
+        }
+      ],
+      "messages": [
+        {
+          "id": "sys-1782190159652",
+          "senderEmail": "system@studymate.com",
+          "senderName": "StudyMate System",
+          "text": "Welcome to study group \"f1\"! Share code \"WL6C\" with your colleagues to collaborate.",
+          "sentAt": "2026-06-23T04:49:19.652Z"
+        }
+      ],
+      "sharedTasks": []
+    }
+  ]
+}

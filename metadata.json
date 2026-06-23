@@ -1,0 +1,6 @@
+{
+  "name": "StudentMate",
+  "description": "An AI-powered student productivity platform combining task tracking, streak systems, a Pomodoro timer, markdown notebooks, and three specialized AI study agents with collaborative study group synchronization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

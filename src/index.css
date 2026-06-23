@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Marvel:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;750&family=Syncopate:wght@400;700&family=Permanent+Marker&display=swap');
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-marvel: "Marvel", "Arial Black", "Impact", sans-serif;
+  --font-syncopate: "Syncopate", sans-serif;
+  --font-marker: "Permanent Marker", cursive;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+body, html, #root {
+  background-color: #f8fafc;
+  color: #1e293b;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  box-sizing: border-box;
+}
+
+.dark body, .dark html, .dark #root {
+  background-color: #030712 !important;
+  color: #f3f4f6;
+}
+
+/* Marvel-style extra animations and solid components support */
+.liquid-glass {
+  background-color: #ffffff;
+  border: 1px solid rgba(226, 18, 39, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.dark .liquid-glass {
+  background-color: #090a0f;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.liquid-glass-red {
+  background-color: #E21227;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Marvel logo text effect */
+.marvel-badge {
+  font-family: var(--font-marvel);
+  background-color: #E21227;
+  color: #FFFFFF;
+  padding: 0.15rem 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: inline-block;
+  transform: skewX(-4deg);
+  box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+}
+
+/* Marvel neon red glow */
+.marvel-glow {
+  box-shadow: 0 0 20px rgba(226, 18, 39, 0.15);
+}
+
+.marvel-glow-strong {
+  box-shadow: 0 0 30px rgba(226, 18, 39, 0.35);
+}
+
+/* Scroll Video */
+#scroll-video-container {
+  position: fixed; inset: 0; z-index: -10;
+  background: #0a0a0a; top: -20%;
+}
+#scroll-video-container canvas,
+#scroll-video-container video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+#scroll-video-container .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.2); }
+
+/* Particles */
+#particles-canvas {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 3;
+}
+
+/* Nav */
+.scroll-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.25rem 2.5rem;
+}
+
