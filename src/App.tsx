@@ -26,11 +26,12 @@ import {
   ShieldCheck,
   ChevronLeft,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Bell
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-import { Toaster } from 'sonner';
+import { Toaster, toast } from 'sonner';
 
 export default function App() {
   const { user, token, logout, fetchTasks, fetchNotes, fetchStreak, fetchHistory, fetchGroups } = useStudyStore();
@@ -51,6 +52,17 @@ export default function App() {
     }
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+  // Request Notification Permission
+  useEffect(() => {
+    if (token && 'Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          toast.success("Desktop notifications enabled!");
+        }
+      });
+    }
+  }, [token]);
 
   // Fetch initial profile specific data upon app mount
   useEffect(() => {
@@ -73,6 +85,18 @@ export default function App() {
 
   const clearSelectedNoteHandler = () => {
     setSelectedNoteId(null);
+  };
+
+  const testNotification = () => {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification('StudyMate', {
+        body: 'This is a test notification for your study sessions!',
+        icon: '/favicon.ico'
+      });
+    }
+    toast('Notification Sent', {
+      description: 'You will receive an alert if notifications are permitted.'
+    });
   };
 
   if (!token) {
@@ -180,6 +204,14 @@ export default function App() {
               </button>
 
               <button
+                onClick={testNotification}
+                className="p-2 border border-slate-200 dark:border-neutral-800 hover:bg-slate-100 dark:hover:bg-neutral-900 rounded-lg flex-1 cursor-pointer transition-colors"
+                title="Test notification"
+              >
+                <Bell className="w-4 h-4 text-slate-500 mx-auto" />
+              </button>
+
+              <button
                 onClick={logout}
                 className="p-2 border border-slate-200 dark:border-neutral-800 text-rose-500 hover:bg-rose-500/10 dark:hover:bg-rose-950/20 rounded-lg flex-1 cursor-pointer transition-colors"
                 title="Log Out Session"
@@ -202,6 +234,9 @@ export default function App() {
             </div>
 
             <div className="flex items-center gap-2 font-marvel">
+              <button onClick={testNotification} className="p-1.5 text-slate-500 dark:text-slate-400">
+                <Bell className="w-4 h-4" />
+              </button>
               <button onClick={toggleTheme} className="p-1.5 text-slate-500 dark:text-slate-400">
                 {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4" />}
               </button>

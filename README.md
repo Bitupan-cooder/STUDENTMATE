@@ -1,12 +1,12 @@
 <div align="center">
-  <img width="1200" height="475" alt="STUDENTMATE" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+   <img width="1200" height="475" alt="STUDENTMATE" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
 </div>
 
 # STUDENTMATE
 
 STUDENTMATE is the final capstone project for the *5 Days AI Agents: Intensive Vibe Coding Course With Google*. This repo demonstrates a real-world student productivity assistant built with React, Express, Google Gemini AI, and an experimental NVIDIA fallback path.
 
-Live app: https://studentmate.onrender.com
+Live app: https://studentmate-259395039858.asia-southeast1.run.app
 
 The app presents a multi-agent study dashboard and is designed to showcase key course concepts such as:
 
@@ -79,9 +79,9 @@ It is ideal for:
 - The `server.ts` backend loads environment variables with `dotenv/config`.
 - `server_adk.ts` attempts to call NVIDIA chat completions first, then falls back to Gemini.
 - AI endpoints include:
-  - `/api/agent/mentor/chat`
-  - `/api/agent/research/search`
-  - `/api/agent/analytics/report`
+   - `/api/agent/mentor/chat`
+   - `/api/agent/research/search`
+   - `/api/agent/analytics/report`
 
 ## How to run locally
 
