@@ -6,7 +6,7 @@
 
 STUDENTMATE is the final capstone project for the *5 Days AI Agents: Intensive Vibe Coding Course With Google*. This repo demonstrates a real-world student productivity assistant built with React, Express, Google Gemini AI, and an experimental NVIDIA fallback path.
 
-Live app: https://studentmate-259395039858.asia-southeast1.run.app
+Live app: https://studentmate.onrender.com
 
 The app presents a multi-agent study dashboard and is designed to showcase key course concepts such as:
 
