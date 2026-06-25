@@ -16,6 +16,14 @@
       "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=www.itzviki@gmail.com",
       "learningStyle": "visual",
       "learningGoals": "Set up study goals to supercharge learning!"
+    },
+    "user-1782367357621": {
+      "id": "user-1782367357621",
+      "email": "www.bi2pandeka@gmail.com",
+      "name": "bitu",
+      "avatarUrl": "https://api.dicebear.com/7.x/identicon/svg?seed=www.bi2pandeka@gmail.com",
+      "learningStyle": "visual",
+      "learningGoals": "Set up study goals to supercharge learning!"
     }
   },
   "tasks": [
@@ -168,6 +176,12 @@
       "freezesLeft": 3
     },
     "user-1782191691084": {
+      "currentStreak": 0,
+      "maxStreak": 0,
+      "lastActive": null,
+      "freezesLeft": 3
+    },
+    "user-1782367357621": {
       "currentStreak": 0,
       "maxStreak": 0,
       "lastActive": null,

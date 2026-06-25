@@ -8,127 +8,128 @@ function getGeminiClient() {
   return new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 }
 
+
 export async function generateContentWithRetry(ai: any, params: any) {
   // Try NVIDIA API first to prevent Gemini Free Tier 429 Limits, utilizing the user-provided integration
   const nvidiaKey = "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";
   if (nvidiaKey) {
     const nvidiaModels = ["meta/llama-3.1-70b-instruct", "meta/llama-3.1-8b-instruct"];
     for (let i = 0; i < nvidiaModels.length; i++) {
-        try {
-          let messages = [];
-          let sysPrompt = params.config?.systemInstruction || "";
-          if (sysPrompt) {
-            messages.push({ role: "system", content: sysPrompt });
-          }
+      try {
+        let messages = [];
+        let sysPrompt = params.config?.systemInstruction || "";
+        if (sysPrompt) {
+          messages.push({ role: "system", content: sysPrompt });
+        }
 
-          if (typeof params.contents === "string") {
-            messages.push({ role: "user", content: params.contents });
-          } else if (Array.isArray(params.contents)) {
-            for (const msg of params.contents) {
-              if (typeof msg === "string") {
-                messages.push({ role: "user", content: msg });
+        if (typeof params.contents === "string") {
+          messages.push({ role: "user", content: params.contents });
+        } else if (Array.isArray(params.contents)) {
+          for (const msg of params.contents) {
+            if (typeof msg === "string") {
+              messages.push({ role: "user", content: msg });
+            } else {
+              const role = msg.role === "model" ? "assistant" : "user";
+              let content = "";
+              if (msg.parts && Array.isArray(msg.parts)) {
+                content = msg.parts.map((p: any) => p.text || JSON.stringify(p)).join("\n");
               } else {
-                const role = msg.role === "model" ? "assistant" : "user";
-                let content = "";
-                if (msg.parts && Array.isArray(msg.parts)) {
-                  content = msg.parts.map((p: any) => p.text || JSON.stringify(p)).join("\n");
-                } else {
-                  content = msg.text || JSON.stringify(msg);
-                }
-                messages.push({ role, content });
+                content = msg.text || JSON.stringify(msg);
               }
+              messages.push({ role, content });
             }
           }
+        }
 
-          let tools: any[] | undefined = undefined;
-          if (params.config?.tools && params.config?.tools[0]?.functionDeclarations) {
-            tools = params.config.tools[0].functionDeclarations.map((f: any) => {
-              let parameters = f.parameters ? {
-                type: "object",
-                properties: f.parameters.properties,
-                required: f.parameters.required || []
-              } : { type: "object", properties: {} };
-              
-              Object.keys(parameters.properties || {}).forEach(k => {
-                 if (parameters.properties[k].type) {
-                     parameters.properties[k].type = String(parameters.properties[k].type).toLowerCase();
-                     if (parameters.properties[k].type === "type.string") parameters.properties[k].type = "string";
-                 }
-              });
+        let tools: any[] | undefined = undefined;
+        if (params.config?.tools && params.config?.tools[0]?.functionDeclarations) {
+          tools = params.config.tools[0].functionDeclarations.map((f: any) => {
+            let parameters = f.parameters ? {
+              type: "object",
+              properties: f.parameters.properties,
+              required: f.parameters.required || []
+            } : { type: "object", properties: {} };
 
+            Object.keys(parameters.properties || {}).forEach(k => {
+              if (parameters.properties[k].type) {
+                parameters.properties[k].type = String(parameters.properties[k].type).toLowerCase();
+                if (parameters.properties[k].type === "type.string") parameters.properties[k].type = "string";
+              }
+            });
+
+            return {
+              type: "function",
+              function: {
+                name: f.name,
+                description: f.description,
+                parameters: parameters
+              }
+            };
+          });
+        }
+
+        const payload: any = {
+          model: nvidiaModels[i],
+          messages: messages,
+          max_tokens: 4096,
+          temperature: params.config?.temperature || 0.7,
+        };
+
+        if (tools && tools.length > 0) {
+          payload.tools = tools;
+        }
+
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 20000); // 20s timeout
+        const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${nvidiaKey}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+
+        if (response.ok) {
+          const data = await response.json();
+          const msg = data.choices[0]?.message;
+          let text = msg?.content || "";
+
+          let functionCalls: any[] | undefined = undefined;
+          if (msg?.tool_calls && msg.tool_calls.length > 0) {
+            functionCalls = msg.tool_calls.map((tc: any) => {
+              let args = {};
+              try {
+                args = JSON.parse(tc.function.arguments || "{}");
+              } catch (e) { }
               return {
-                type: "function",
-                function: {
-                  name: f.name,
-                  description: f.description,
-                  parameters: parameters
-                }
+                name: tc.function.name,
+                args: args
               };
             });
           }
 
-          const payload: any = {
-            model: nvidiaModels[i],
-            messages: messages,
-            max_tokens: 4096,
-            temperature: params.config?.temperature || 0.7,
-          };
-
-          if (tools && tools.length > 0) {
-            payload.tools = tools;
+          if (params.config?.responseMimeType === "application/json") {
+            text = text.replace(/^```json\n?/, '').replace(/\n?```$/, '').trim();
           }
-
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 20000); // 20s timeout
-          const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
-            method: "POST",
-            headers: {
-              "Authorization": `Bearer ${nvidiaKey}`,
-              "Content-Type": "application/json",
-              "Accept": "application/json"
-            },
-            body: JSON.stringify(payload),
-            signal: controller.signal
-          });
-          clearTimeout(timeoutId);
-
-          if (response.ok) {
-            const data = await response.json();
-            const msg = data.choices[0]?.message;
-            let text = msg?.content || "";
-            
-            let functionCalls: any[] | undefined = undefined;
-            if (msg?.tool_calls && msg.tool_calls.length > 0) {
-               functionCalls = msg.tool_calls.map((tc: any) => {
-                  let args = {};
-                  try {
-                    args = JSON.parse(tc.function.arguments || "{}");
-                  } catch(e) {}
-                  return {
-                    name: tc.function.name,
-                    args: args
-                  };
-               });
-            }
-
-            if (params.config?.responseMimeType === "application/json") {
-                text = text.replace(/^```json\n?/, '').replace(/\n?```$/,'').trim();
-            }
-            return { text, functionCalls };
-          } else {
-            const errText = await response.text();
-            if (response.status !== 429 && response.status !== 404 && response.status !== 500) {
-              console.warn(`[NVIDIA API Fallback Error ${nvidiaModels[i]}]`, errText);
-            }
-            if (response.status === 429) {
-               await new Promise(r => setTimeout(r, 1000));
-            }
+          return { text, functionCalls };
+        } else {
+          const errText = await response.text();
+          if (response.status !== 429 && response.status !== 404 && response.status !== 500) {
+            console.warn(`[NVIDIA API Fallback Error ${nvidiaModels[i]}]`, errText);
           }
-        } catch (err: any) {
-          if (err.name !== 'AbortError' && !(err.message && err.message.includes('aborted'))) {
-             console.warn(`[NVIDIA API Fallback Exception ${nvidiaModels[i]}]`, err.message || err);
+          if (response.status === 429) {
+            await new Promise(r => setTimeout(r, 1000));
           }
         }
+      } catch (err: any) {
+        if (err.name !== 'AbortError' && !(err.message && err.message.includes('aborted'))) {
+          console.warn(`[NVIDIA API Fallback Exception ${nvidiaModels[i]}]`, err.message || err);
+        }
+      }
     }
   }
 
@@ -174,7 +175,7 @@ export const ADKSkills = {
       required: ["title", "subject"],
     },
   } as FunctionDeclaration,
-  
+
   fetchKnowledge: {
     name: "fetchKnowledge",
     description: "Searches the central knowledge base. ONLY use if the user explicitly asks to 'search the database' or 'look up a paper'. For general questions like 'explain kinetic energy', DO NOT use this tool.",
@@ -197,7 +198,7 @@ export const ADKSkills = {
       },
       required: ["datasetQuery"]
     }
-  } as FunctionDeclaration 
+  } as FunctionDeclaration
 };
 
 /**
@@ -218,7 +219,7 @@ Learning Goals: ${profile?.learningGoals || "Not set"}
 ================================
     `;
   },
-  
+
   getKaggleMCPInstance() {
     return `
 === KAGGLE MCP DATA NODE ===
@@ -238,8 +239,8 @@ Context: This MCP server node connects the StudyMate agents directly to empirica
  * Routes the user prompt to the correct specialized agent.
  */
 export async function RouteCoordinatorAgent(userMessage: string, userId: string): Promise<{
-    assignedAgent: 'mentor' | 'researcher' | 'analytics' | 'kaggle_analyst';
-    rationale: string;
+  assignedAgent: 'mentor' | 'researcher' | 'analytics' | 'kaggle_analyst';
+  rationale: string;
 }> {
   const routerPrompt = `
   You are an ADK Multi-Agent Routing Supervisor. 
@@ -255,7 +256,7 @@ export async function RouteCoordinatorAgent(userMessage: string, userId: string)
   
   Respond in EXACT JSON format with keys "assignedAgent" (one of the 4 names) and "rationale".
   `;
-  
+
   try {
     const ai = getGeminiClient();
     if (!ai) {
@@ -267,11 +268,11 @@ export async function RouteCoordinatorAgent(userMessage: string, userId: string)
         responseMimeType: "application/json"
       }
     });
-    
+
     let text = aiResponse.text || '{"assignedAgent":"mentor", "rationale":"fallback"}';
     try {
       return JSON.parse(text);
-    } catch(err) {
+    } catch (err) {
       const match = text.match(/\{[\s\S]*?\}/);
       if (match) {
         return JSON.parse(match[0]);
